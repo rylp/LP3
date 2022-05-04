@@ -3,9 +3,7 @@ package des;
 public class DES 
 {
 	public static final int P10[] = { 3, 5, 2, 7, 4, 10, 1, 9, 8, 6}; 
-
 	public static final int P8[] = { 6, 3, 7, 4, 8, 5, 10, 9};
-	
     public static final int P4[] = { 2, 4, 3, 1};
 	
     public static final int IP[] = { 2, 6, 3, 1, 4, 8, 5, 7};
@@ -23,16 +21,8 @@ public class DES
     								  { 3, 0, 1, 2},
     								  { 2, 1, 0, 3}};
 	
-	public static int key[];
-	
 	public static int K1[];
-
 	public static int K2[];
-	
-	public static int PT[];
-	
-	public static int CT[];
-
 	
 	public static void shiftLeftByN(int[] arr, int n) 
 	{
@@ -101,7 +91,6 @@ public class DES
 	public static void generateKey(int[] originalKey)
 	{
 		//Step1: Perform P10 Permutation
-		
 		System.out.println("-------Perform P10 Permutation------");
 
 		int[] afterP10=new int[10];
@@ -422,14 +411,14 @@ public class DES
 		
 		//Step3: Swap internally
 		System.out.println("Swap internally");
-		int []templeftBlock=new int[4];
-		int []temprightBlock=new int[4];
+		int []tempLeftBlock=new int[4];
+		int []tempRightBlock=new int[4];
 		
-		transferLeftRight(afterFk1, templeftBlock, temprightBlock);
+		transferLeftRight(afterFk1, tempLeftBlock, tempRightBlock);
 		
 		int[] intermediateText=new int[8];
 		
-		mergeLeftRight(intermediateText, temprightBlock, templeftBlock);
+		mergeLeftRight(intermediateText, tempRightBlock, tempLeftBlock);
 		
 		printArray(intermediateText);
 		
@@ -515,8 +504,6 @@ public class DES
 
 	public static void main(String[] args) 
 	{
-		//String key="1010000010";
-		
 		int[] key=new int[] {1,0,1,0,0,0,0,0,1,0};
 		
 		System.out.println(key.length);
@@ -525,7 +512,6 @@ public class DES
 		printArray(key);
 		
 		//Step A: Generate Key
-		
 		System.out.println("-------Generate Key------");
 		generateKey(key);
 		
