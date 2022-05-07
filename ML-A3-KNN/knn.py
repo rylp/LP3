@@ -136,3 +136,15 @@ knn(datapoints,query_point,labels,3)
 
 print('KNN-Distance Weighted')
 knn_distance_weighted(datapoints,query_point,labels,3)
+
+
+#Output
+# KNN
+# K-nearest Neighbours with (dist,idx): [(2.0, 2), (2.0, 3), (2.8284271247461903, 5)]
+# Labels of KNNs: [1, 1, 0]
+# Final Label: 1
+# KNN-Distance Weighted
+# K-nearest Neighbours with (dist,idx): [(2.0, 2), (2.0, 3), (2.8284271247461903, 5)]
+# Labels of KNNs: [1, 1, 0]
+# K-weights: [(0.5, 2), (0.5, 3), (0.35355339059327373, 5)]
+# Final Label: 1
