@@ -35,8 +35,11 @@ def decrypt_message(c,n,d): # applies decryption
 if __name__=="__main__":
     print("RSA algorithm")
 
-    p=int(input("Enter prime p: "))
-    q=int(input("Enter prime q (other than p): "))
+    # p=int(input("Enter prime p: "))
+    # q=int(input("Enter prime q (other than p): "))
+
+    p=17
+    q=23
 
     print("Choosen p: ", p)
     print("Choosen q: ", q)
@@ -49,7 +52,9 @@ if __name__=="__main__":
 
     print("phi is : ", phi)
 
-    e=int(input("Choose e s.t it is coprime with phi and in the range: "))
+    #e=int(input("Choose 'e' s.t it is coprime with phi and in the range: "))
+
+    e=205
 
     print("e is: ", e)
 
@@ -60,7 +65,7 @@ if __name__=="__main__":
     print("Public key is (n,e) which is: (", n ,",",e,")")
     print("private key is (n,d) which is: (", n ,",",d,")")
 
-    #Encryption
+    #Encryption --> C = M^e mod n
 
     m=input("Enter message to encrypt: ")
 
@@ -70,8 +75,72 @@ if __name__=="__main__":
 
     print("Encrypted Message: Cipher Text C: ",c)
 
-    #Decryption
+    #Decryption --> M=C^d mod n
 
     m1=decrypt_message(c,n,d)
 
     print("Decrypted Message: ",m1)
+
+
+#Output
+# RSA algorithm
+# Choosen p:  17
+# Choosen q:  23
+# n is :  391
+# phi is :  352
+# e is:  205
+# d is : 261
+# Public key is (n,e) which is: ( 391 , 205 ) 
+# private key is (n,d) which is: ( 391 , 261 )
+# Enter message to encrypt: rohan-limaye
+# PLaintext M:  rohan-limaye
+# r  :  114
+# 252
+# o  :  111
+# 314
+# h  :  104
+# 338
+# a  :  97
+# 201
+# n  :  110
+# 213
+# -  :  45
+# 160
+# l  :  108
+# 248
+# i  :  105
+# 216
+# m  :  109
+# 227
+# a  :  97
+# 201
+# y  :  121
+# 49
+# e  :  101
+# 50
+# Encrypted Message: Cipher Text C:  üĺŒÉÕ øØãÉ12
+# ü  :  252
+# 114
+# ĺ  :  314
+# 111
+# Œ  :  338
+# 104
+# É  :  201
+# 97
+# Õ  :  213
+# 110
+#    :  160
+# 45
+# ø  :  248
+# 108
+# Ø  :  216
+# 105
+# ã  :  227
+# 109
+# É  :  201
+# 97
+# 1  :  49
+# 121
+# 2  :  50
+# 101
+# Decrypted Message:  rohan-limaye
