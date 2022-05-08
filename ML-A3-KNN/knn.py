@@ -98,11 +98,17 @@ def knn_distance_weighted(datapoints,query_point,labels,k):
     one_label_weight=0
     zero_label_weight=0
 
+    #go thru all the k_labels,
+    # if label is 0, add to zero_label_wt
+    # else add to one_label_wt
     for i in range(len(k_labels)):
-        if labels[i]==0:
+        if k_labels[i]==0:
             zero_label_weight+=k_weights[i][0]
         else:
             one_label_weight+=k_weights[i][0]
+
+    print("One Label Weight:",one_label_weight)
+    print("Zero Label Weight:",zero_label_weight)
 
     final_label=0
 
@@ -122,7 +128,7 @@ datapoints=[
     (6,4),
     (4,6),
     (6,2),
-    (4,4)
+    (4,4),
 ]
 
 labels=[1,1,1,1,0,0]
@@ -147,4 +153,6 @@ knn_distance_weighted(datapoints,query_point,labels,3)
 # K-nearest Neighbours with (dist,idx): [(2.0, 2), (2.0, 3), (2.8284271247461903, 5)]
 # Labels of KNNs: [1, 1, 0]
 # K-weights: [(0.5, 2), (0.5, 3), (0.35355339059327373, 5)]
+# One Label Weight: 1.0
+# Zero Label Weight: 0.35355339059327373
 # Final Label: 1
