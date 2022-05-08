@@ -168,3 +168,19 @@ for C1,C2 in zip(C1_array,C2_array):
     original_message+=D
 
 print(original_message)
+
+
+#Output
+# d choosen: 1
+# Public Key Q: (6, 3)    
+# Private key d: 1        
+# Cipher Text C1: (13, 10)
+# Cipher Text C2: (124, 7)
+# (114, 1)
+# r
+# C1_array: [(13, 10), (3, 1), (13, 7)]
+# C2_array: [(124, 7), (134, 8), (118, 12)]
+# (114, 1)
+# (121, 1)
+# (108, 1)
+# ryl
