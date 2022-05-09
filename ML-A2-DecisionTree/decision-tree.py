@@ -16,7 +16,9 @@ class Node:
 
 #create DecisionTree class with dataset--> signifies whole dataset
 #                             target_class--> "Buys"
-#                           root--> root is initilized as Node                
+#                           root--> root is initilized as Node   
+#                           max_gain_classes --> for storing all levels of tree & order of selection
+#                                           of the categories             
 class DecisionTree:
     def __init__(self,dataset,target_class):
         self.dataset=dataset
@@ -71,15 +73,11 @@ class DecisionTree:
 
         return entropy
 
-    #Call build with original dataset and None as the root Node now
+    #Call build with original dataset and Dummy root node
     def build_tree(self):
-        self.root=self.build(self.dataset,None)
+        self.build(self.dataset,self.root)
     
     def build(self,dataset,root):
-
-        #If root is None, assign
-        if root==None:
-            root=self.root
 
         #Get information gain of target
         p,n,inf_gain=self.get_info_gain(dataset[self.target_class])
@@ -97,9 +95,10 @@ class DecisionTree:
         #get columns    
         columns=dataset.columns
 
-        #init max_gain
+        #init max_gain,max_gain_index & max_gain_column
         max_gain=0
         max_gain_index=-1
+        max_gain_column=None
 
         #go thru all columns
         for index in range(len(columns)):
@@ -119,14 +118,13 @@ class DecisionTree:
             if gain>max_gain:
                 max_gain=gain
                 max_gain_index=index
+                max_gain_column=column_name
 
         print("Max Gain:",max_gain,"Category next selected:",columns[max_gain_index])
 
         self.max_gain_classes.append(columns[max_gain_index])
 
         #now, decompose into datasets based on categories
-        max_gain_column=columns[max_gain_index]
-
         datacolumn=dataset[max_gain_column]
 
         unique_categories=datacolumn.unique()
@@ -146,16 +144,17 @@ class DecisionTree:
             print("Category:",category)    
             print(df)
             
-            #now, call build again to get the children
+            #now, call build again to get the children, 
+            # with current category & max_gain_col as Node parent
             child=self.build(df,Node(max_gain_column,category))
 
+            #once you get the child append it to root
             root.children.append(child)
 
         return root
 
     #Function to print tree
     def print_tree(self,root):
-
         #First print the node
 
         #if then condition
@@ -169,9 +168,7 @@ class DecisionTree:
             return
 
         #get all children & travel thru the list and call print tree
-        children_list=root.children
-
-        for child in children_list:
+        for child in root.children:
             self.print_tree(child)
 
         return
@@ -223,7 +220,7 @@ class DecisionTree:
 
         return None
 
-training_data = [
+data = [
   ['<21', 'High', 'M', 'Single', 'N'],
   ['<21', 'High', 'M', 'Married', 'N'],
   ['21-35', 'High', 'M', 'Single', 'Y'],
@@ -240,9 +237,9 @@ training_data = [
   ['>35', 'Medium', 'M', 'Married', 'N']
 ]
 
-header = ["Age", "Income","Gender","Marital Status","Buys"]
+columns = ["Age", "Income","Gender","Marital Status","Buys"]
 
-dataset=pd.DataFrame(data=training_data,columns=header)
+dataset=pd.DataFrame(data=data,columns=columns)
 
 dt=DecisionTree(dataset,"Buys")
 
@@ -261,3 +258,94 @@ test_columns=['Age','Income','Gender','Marital Status']
 print(dt.predict(['<21','Low','F','Married'],test_columns))
 print(dt.predict(['21-35','Low','F','Married'],test_columns))
 print(dt.predict(['>35','Low','F','Single'],test_columns))
+
+#Output
+# Max Gain: 0.6813658001493862 Category next selected: Age
+# Category: <21
+#    Income Gender Marital Status Buys
+# 0    High      M         Single    N
+# 1    High      M        Married    N
+# 2  Medium      M         Single    N
+# 3     Low      F        Married    Y
+# 4  Medium      F        Married    Y
+# Max Gain: 0.9709505944546686 Category next selected: Gender
+# Category: M
+#    Income Marital Status Buys
+# 0    High         Single    N
+# 1    High        Married    N
+# 2  Medium         Single    N
+# Category: F
+#    Income Marital Status Buys       
+# 0     Low        Married    Y       
+# 1  Medium        Married    Y       
+# Category: 21-35
+#    Income Gender Marital Status Buys
+# 0    High      M         Single    Y
+# 1     Low      F        Married    Y
+# 2  Medium      M        Married    Y
+# 3    High      F         Single    Y
+# Category: >35
+#    Income Gender Marital Status Buys
+# 0  Medium      M         Single    Y
+# 1     Low      F         Single    Y
+# 2     Low      F        Married    N
+# 3  Medium      F         Single    Y
+# 4  Medium      M        Married    N
+# Max Gain: 0.9709505944546686 Category next selected: Marital Status
+# Category: Single
+#    Income Gender Buys
+# 0  Medium      M    Y
+# 1     Low      F    Y
+# 2  Medium      F    Y
+# Category: Married
+#    Income Gender Buys
+# 0     Low      F    N
+# 1  Medium      M    N
+# ['Age', 'Gender', 'Marital Status']
+# Printing tree
+# IF Node: Dummy Root --> No condition
+# IF Node: Age --> <21
+# IF Node: Gender --> M
+# THEN Node: Buys --> N
+# IF Node: Gender --> F
+# THEN Node: Buys --> Y
+# IF Node: Age --> 21-35
+# THEN Node: Buys --> Y
+# IF Node: Age --> >35
+# IF Node: Marital Status --> Single
+# THEN Node: Buys --> Y
+# IF Node: Marital Status --> Married
+# THEN Node: Buys --> N
+# New test cols: ['Age', 'Gender', 'Marital Status']
+# New test query: ['<21', 'F', 'Married']
+# Node: Dummy Root --> No condition
+# Child details: Age --> <21
+# Child details: Age --> 21-35
+# Child details: Age --> >35
+# Node: Age --> <21
+# Child details: Gender --> M
+# Child details: Gender --> F
+# Node: Gender --> F
+# Child details: Buys --> Y
+# Y
+# New test cols: ['Age', 'Gender', 'Marital Status']
+# New test query: ['21-35', 'F', 'Married']
+# Node: Dummy Root --> No condition
+# Child details: Age --> <21
+# Child details: Age --> 21-35
+# Child details: Age --> >35
+# Node: Age --> 21-35
+# Child details: Buys --> Y
+# Y
+# New test cols: ['Age', 'Gender', 'Marital Status']
+# New test query: ['>35', 'F', 'Single']
+# Node: Dummy Root --> No condition
+# Child details: Age --> <21
+# Child details: Age --> 21-35
+# Child details: Age --> >35
+# Node: Age --> >35
+# Child details: Marital Status --> Single
+# Child details: Marital Status --> Married
+# Node: Marital Status --> Single
+# Child details: Buys --> Y
+# Y
