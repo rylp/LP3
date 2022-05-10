@@ -75,20 +75,16 @@ def multiply(k,P):
         return P
     
     #perform addition of P with itself k times
-    while k!=0:
-        P=addition(P,P)
+    Q=P
 
+    while k!=1:
+        Q=addition(P,Q)
         k-=1
-
-        #just before ending loop, assign result to Q
-        if k==0:
-            Q=P
     
     return Q
 
 #key generate
 def generate_key():
-    
     #select private key d randomly
     d=randint(1,n-1)
 
@@ -99,7 +95,6 @@ def generate_key():
 
 #perform encryption
 def encrypt(m,Q,d):
-
     #Create point M from m, take ascii value using ord()
     M=(ord(m),1)
 
@@ -157,8 +152,8 @@ print("Original Msg:",original)
 
 #Output
 # Starting ECC
-# Public Key Q: (16, 4)
-# Private Key d: 5
-# Cipher Text C1: [(5, 1), (7, 6), (13, 10), (0, 6), (5, 16), (6, 14), (7, 6), (6, 14), (16, 13)]
-# Cipher Text C2: [(130, 5), (121, 7), (111, 12), (100, 17), (126, 14), (64, 12), (59, 7), (50, 12), (57, 4)]
+# Public Key Q: (3, 1)
+# Private Key d: 4
+# Cipher Text C1: [(6, 3), (10, 11), (0, 11), (13, 7), (5, 1), (10, 6), (7, 6), (6, 3), (13, 10)]
+# Cipher Text C2: [(127, 8), (111, 7), (111, 12), (113, 5), (113, 2), (64, 12), (55, 15), (63, 8), (67, 14)]     
 # Original Msg: rohan@123
