@@ -36,3 +36,18 @@ if __name__=="__main__":
     KB=pow(A,b,n)
 
     print("Shared secret key is: ", KB)
+
+#Output
+#Diffie Hellman key exchange
+# Enter n:23
+# Enter g:9
+# n is : 23
+# g is : 9
+# Enter Alex private key a:4
+# Enter Bob private key b: 3
+# a is : 4
+# b is : 3
+# A is : 6
+# B is : 16
+# Shared secret key is:  9
+# Shared secret key is:  9
