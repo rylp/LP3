@@ -1,20 +1,16 @@
 from random import randint
 
-# Choose a,b,p E17(2,2)
-p=17
-a=2
-b=2
-
-#Choose n=19 & P=(5,1) as generator point
-n=19
-
-Px=5
-Py=1
-
-P=(Px,Py)
-
 #define generator point
 INF_POINT=None
+
+def check_singularity(a,b):
+
+    #If 4a^3 + 27b^2 ==0, curve is called Singular
+    # which is not allowed for ECC
+    if 4*a**3+27*b*b==0:
+        return True
+    else:
+        return False
 
 #takes the inverse l^(p-2) mod p
 def inverse_mod_p(l):
@@ -30,7 +26,6 @@ def equal_mod_p(p1,p2):
 
 #addition function for points P1 and P2
 def addition(P1,P2):
-
     #get the individual co-ordinates
     (x1,y1)=P1
     (x2,y2)=P2
@@ -114,6 +109,28 @@ def decrypt(C1,C2,d):
     return chr(M[0])
 
 print("Starting ECC")
+
+
+#keep taking input values till we get non-singular curve
+valid=False
+
+while valid==False:
+    a=int(input('Enter a for elliptic curve'))
+    b=int(input('Enter b for curve'))
+
+    if check_singularity(a,b)==True:
+        continue
+
+    p=int(input('Enter p for curve'))
+
+    Px=int(input('Enter x co-ordinate for Generator'))
+    Py=int(input('Enter y co-ordinate for Generator'))
+
+    P=(Px,Py)
+
+    n=int(input('Enter n for the curve'))
+
+    valid=True
 
 Q,d=generate_key()
 
