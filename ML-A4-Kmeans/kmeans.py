@@ -108,6 +108,8 @@ def KMeans(datapoints,centroids,labels,old_labels):
         print("New labels: ",labels)
         print("Old labels: ",old_labels)
 
+        iter+=1
+
 #datapoints
 datapoints = [
   (0.1,0.6),
