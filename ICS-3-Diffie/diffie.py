@@ -1,53 +1,106 @@
-if __name__=="__main__":
-    print("Diffie Hellman key exchange")
 
-    #Choose n,g
+def isPrime(num):
+    if num> 1:  
+        for n in range(2,num):  
+            if (num % n) == 0:  
+                return False
+        return True
+    else:
+        return False
 
+#function to get smallest primitive root of n
+def get_primitive_root(n):
+
+    flag=False
+
+    #r goes from 1 to n-1
+    for r in range(1,n):
+        
+        #create a empty dict for every 'r' iteration
+        values={}
+
+        #x goes from 0 to n-2
+        for x in range(0,n-1):
+            
+            #taking (r^x)%n
+            val=pow(r,x,n)
+
+            #if that val is already present in dictionary values,
+            #   check for next r, break inner loop
+            if val in values.keys():
+                break
+
+            #otherwise add it to dictionary
+            values[val]=True
+   
+            #if x has reached n-2, make flag True
+            if x==n-2:
+                flag=True
+        
+        #if flag is True, break we have found n
+        if flag==True:
+            return r
+
+    return None
+        
+
+#Start
+print("Diffie Hellman key exchange")
+
+#Choose a prime 'n'
+flag=False
+while(flag!=True):
+    #Choose a prime n
     n=int(input("Enter n:"))
-    g=int(input("Enter g:"))
 
-    print("n is :", n)
-    print("g is :", g)
+    #Check if n is prime
+    if isPrime(n)==True:
+        flag=True
 
-    #Alex chooses private key a, Bob chooses private key b
+#get g: primitive root of n
+g=get_primitive_root(n)
 
-    a=int(input("Enter Alex private key a:"))
-    b=int(input("Enter Bob private key b: "))
-    
-    print("a is :", a)
-    print("b is :", b)
+print("n is :", n)
+print("g is :", g)
 
-    #Alex calculates A= g^a modn 
-    A=pow(g,a,n)
+#Alex chooses private key a, Bob chooses private key b
 
-    print("A is :", A)
+a=int(input("Enter Alex private key a:"))
+b=int(input("Enter Bob private key b: "))
 
-    #Bob calculates B=g^b modn
-    B=pow(g,b,n)
+print("a is :", a)
+print("b is :", b)
 
-    print("B is :", B)
+#Alex calculates A= g^a modn 
+A=pow(g,a,n)
 
-    #Shared key is calculated
+print("A is :", A)
 
-    KA=pow(B,a,n)
+#Bob calculates B=g^b modn
+B=pow(g,b,n)
 
-    print("Shared secret key is: ", KA)
+print("B is :", B)
 
-    KB=pow(A,b,n)
+#Shared key is calculated
 
-    print("Shared secret key is: ", KB)
+KA=pow(B,a,n)
+
+print("Shared secret key is: ", KA)
+
+KB=pow(A,b,n)
+
+print("Shared secret key is: ", KB)
 
 #Output
-#Diffie Hellman key exchange
+# Diffie Hellman key exchange
 # Enter n:23
-# Enter g:9
 # n is : 23
-# g is : 9
-# Enter Alex private key a:4
-# Enter Bob private key b: 3
-# a is : 4
-# b is : 3
-# A is : 6
-# B is : 16
-# Shared secret key is:  9
-# Shared secret key is:  9
+# g is : 5 
+# Enter Alex private key a:3
+# Enter Bob private key b: 4
+# a is : 3
+# b is : 4
+# A is : 10
+# B is : 4
+# Shared secret key is:  18
+# Shared secret key is:  18
