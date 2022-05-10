@@ -31,19 +31,9 @@ def equal_mod_p(p1,p2):
 #addition function for points P1 and P2
 def addition(P1,P2):
 
-    #if any of the points are INFINITY, return the other 
-    if P1==INF_POINT:
-        return P2
-
-    if P2==INF_POINT:
-        return P1
-
+    #get the individual co-ordinates
     (x1,y1)=P1
     (x2,y2)=P2
-
-    #For single point condition --> x1,x2 and -y1,y2
-    if equal_mod_p(x1,x2) and equal_mod_p(-y1,y2):
-        return INF_POINT
     
     u=0
 
@@ -65,7 +55,6 @@ def addition(P1,P2):
 
     return (x3,y3)
 
-
 #multiplies P k times 
 def multiply(k,P):
     
@@ -77,12 +66,15 @@ def multiply(k,P):
     Q=P
 
     while k!=1:
+        #add P+Q and store in Q
         Q=addition(P,Q)
+
+        #decrement k
         k-=1
     
     return Q
 
-#key generate
+#key generation
 def generate_key():
     #select private key d randomly
     d=randint(1,n-1)
@@ -132,6 +124,7 @@ C1_array=[]
 C2_array=[]
 
 message='rohan@123'
+print("Msg:",message)
 
 for character in message:
     C1,C2=encrypt(character,Q,d)
@@ -153,6 +146,7 @@ print("Original Msg:",original)
 # Starting ECC
 # Public Key Q: (3, 1)
 # Private Key d: 4
-# Cipher Text C1: [(6, 3), (10, 11), (0, 11), (13, 7), (5, 1), (10, 6), (7, 6), (6, 3), (13, 10)]
-# Cipher Text C2: [(127, 8), (111, 7), (111, 12), (113, 5), (113, 2), (64, 12), (55, 15), (63, 8), (67, 14)]     
+# Msg: rohan@123
+# Cipher Text C1: [(5, 1), (5, 16), (3, 1), (7, 6), (16, 4), (3, 1), (13, 10), (3, 1), (16, 4)]
+# Cipher Text C2: [(117, 2), (114, 17), (114, 12), (103, 15), (119, 2), (74, 12), (65, 14), (60, 12), (60, 2)]   
 # Original Msg: rohan@123
