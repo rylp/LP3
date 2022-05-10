@@ -1,8 +1,5 @@
 from random import randint
 
-#define generator point
-INF_POINT=None
-
 def check_singularity(a,b):
 
     #If 4a^3 + 27b^2 ==0, curve is called Singular
