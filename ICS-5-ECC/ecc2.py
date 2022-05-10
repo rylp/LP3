@@ -70,8 +70,8 @@ def addition(P1,P2):
 def multiply(k,P):
     Q=INF_POINT
 
-    #if k is 0, directly return P
-    if k==0:
+    #if k is 1, directly return P
+    if k==1:
         return P
     
     #perform addition of P with itself k times
