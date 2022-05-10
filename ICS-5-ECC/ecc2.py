@@ -1,5 +1,6 @@
 from random import randint
 
+#these values must be learnt.They are not arbitrary or random
 # Choose a,b,p E17(2,2)
 p=17
 a=2
@@ -12,9 +13,6 @@ Px=5
 Py=1
 
 P=(Px,Py)
-
-#define generator point
-INF_POINT=None
 
 #takes the inverse l^(p-2) mod p
 def inverse_mod_p(l):
@@ -31,20 +29,9 @@ def equal_mod_p(p1,p2):
 #addition function for points P1 and P2
 def addition(P1,P2):
 
-    #if any of the points are INFINITY, return the other 
-    if P1==INF_POINT:
-        return P2
-
-    if P2==INF_POINT:
-        return P1
-
     (x1,y1)=P1
     (x2,y2)=P2
 
-    #For single point condition --> x1,x2 and -y1,y2
-    if equal_mod_p(x1,x2) and equal_mod_p(-y1,y2):
-        return INF_POINT
-    
     u=0
 
     #For finding tangent --> x1,x2 & y1,y2
@@ -52,7 +39,7 @@ def addition(P1,P2):
     if equal_mod_p(x1,x2) and equal_mod_p(y1,y2):
         u=reduce_mod_p( (3*x1*x1 + a) * inverse_mod_p(2*y1) )
 
-    # For finding general slope between 2 points
+    #For finding general slope between 2 points
     #   u=y2-y1/x2-x1
     else:
         u= reduce_mod_p( (y2-y1)*inverse_mod_p(x2-x1) )        
@@ -65,10 +52,8 @@ def addition(P1,P2):
 
     return (x3,y3)
 
-
 #multiplies P k times 
-def multiply(k,P):
-    
+def multiply(k,P):   
     #if k is 1, directly return P
     if k==1:
         return P

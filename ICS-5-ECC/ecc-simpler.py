@@ -9,6 +9,12 @@ def check_singularity(a,b):
     else:
         return False
 
+def check_if_on_curve(a,b,x,y):
+    left=y*y
+    right=x**3+a*x+b
+
+    return left==right
+
 #takes the inverse l^(p-2) mod p
 def inverse_mod_p(l):
     return pow(l,p-2,p)
@@ -114,11 +120,10 @@ valid=False
 while valid==False:
     a=int(input('Enter a for elliptic curve'))
     b=int(input('Enter b for curve'))
+    p=int(input('Enter p for curve'))
 
     if check_singularity(a,b)==True:
         continue
-
-    p=int(input('Enter p for curve'))
 
     Px=int(input('Enter x co-ordinate for Generator'))
     Py=int(input('Enter y co-ordinate for Generator'))
@@ -158,9 +163,15 @@ print("Original Msg:",original)
 
 #Output
 # Starting ECC
-# Public Key Q: (3, 1)
-# Private Key d: 4
+# Enter a for elliptic curve2
+# Enter b for curve2
+# Enter p for curve17
+# Enter x co-ordinate for Generator5
+# Enter y co-ordinate for Generator1
+# Enter n for the curve19
+# Public Key Q: (13, 7)
+# Private Key d: 8
 # Msg: rohan@123
-# Cipher Text C1: [(5, 1), (5, 16), (3, 1), (7, 6), (16, 4), (3, 1), (13, 10), (3, 1), (16, 4)]
-# Cipher Text C2: [(117, 2), (114, 17), (114, 12), (103, 15), (119, 2), (74, 12), (65, 14), (60, 12), (60, 2)]   
+# Cipher Text C1: [(16, 13), (13, 7), (6, 3), (13, 10), (6, 14), (3, 16), (7, 11), (5, 16), (5, 16)]
+# Cipher Text C2: [(121, 12), (111, 7), (114, 12), (97, 12), (120, 7), (80, 14), (52, 2), (63, 11), (64, 11)]    
 # Original Msg: rohan@123
