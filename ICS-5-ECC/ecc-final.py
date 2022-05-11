@@ -195,7 +195,6 @@ for character in message:
 print("Cipher Text C1:",C1_array)
 print("Cipher Text C2:",C2_array)
 
-
 #Decryption
 original=''
 for C1,C2 in zip(C1_array,C2_array):
