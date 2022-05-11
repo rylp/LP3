@@ -87,7 +87,12 @@ class DecisionTree:
         # Append it to the current root's children 
         # and return it
         if(inf_gain==0):
-            root.children.append(Node(self.target_class,"Y" if n==0 else "N"))
+            label=None
+            if p==0:
+                label="N"
+            else:
+                label="Y"
+            root.children.append(Node(self.target_class,label))
             return root
         
         #Calculate entropy
@@ -120,9 +125,9 @@ class DecisionTree:
                 max_gain_index=index
                 max_gain_column=column_name
 
-        print("Max Gain:",max_gain,"Category next selected:",columns[max_gain_index])
+        print("Max Gain:",max_gain,"Category next selected:",max_gain_column)
 
-        self.max_gain_classes.append(columns[max_gain_index])
+        self.max_gain_classes.append(max_gain_column)
 
         #now, decompose into datasets based on categories
         datacolumn=dataset[max_gain_column]
@@ -175,7 +180,6 @@ class DecisionTree:
 
     #Function for prediction
     def predict(self,test_query,test_columns):
-
         #remove unneccessary columns and create new_test_columns, new_test_query
         # by matching with max_gain_classes
         new_test_columns=[]
