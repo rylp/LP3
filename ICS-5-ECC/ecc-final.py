@@ -2,13 +2,9 @@ from random import randint
 
 #function to check if elliptic curve is singular or not.
 def check_singularity(a,b):
-
     #If 4a^3 + 27b^2 ==0, curve is called Singular
     # which is not allowed for ECC
-    if 4*a**3+27*b*b==0:
-        return True
-    else:
-        return False
+    return 4*a**3+27*b*b==0
 
 #takes the inverse l^(p-2) mod p
 def inverse_mod_p(l):
@@ -38,9 +34,7 @@ def addition(P1,P2):
     else:
         u= reduce_mod_p( (y2-y1)*inverse_mod_p(x2-x1) )        
 
-    # Get x3 and y3
-    # x3=u^2 -x1 -x2
-    # y3=ux1-ux3-y1
+    # Get x3 and y3 --> x3=u^2 -x1 -x2 , y3=ux1-ux3-y1
     x3=reduce_mod_p(u*u-x1-x2)
     y3=reduce_mod_p(u*x1-u*x3-y1)
 
@@ -57,30 +51,23 @@ def multiply(k,P):
 
     #go in loop till k hits 1
     while k!=1:
-
         # Q=P+Q & decrement k
         Q=addition(P,Q)
         k-=1
-    
     return Q
 
 #checks if point P is on curve
 def is_point_on_curve(P):
     (x,y)=P
-
     lhs=reduce_mod_p(x**3+a*x+b)
     rhs=reduce_mod_p(y**2)
-
-    #if yes return True, else False
     return lhs==rhs
 
 #generate the prime order for a generator
 def generate_n(P):
-
     #init n to 2, as prime order starts from 2.
     n=2
     while True:
-
         #Q=nP
         Q=multiply(n,P)
 
@@ -90,7 +77,6 @@ def generate_n(P):
 
         #keep incrementing n until we reach a point that is not on curve.
         n+=1
-
     return None
 
 #key generation
@@ -122,7 +108,6 @@ def encrypt(m,Q,d):
 
 #perform decryption
 def decrypt(C1,C2,d):
-
     #D=dC1
     D=multiply(d,C1)
 
@@ -136,7 +121,6 @@ print("Starting ECC")
 
 #keep taking input values till we get non-singular curve
 valid=False
-
 while valid==False:
     a=int(input('Enter a for elliptic curve'))
     b=int(input('Enter b for curve'))
@@ -160,17 +144,15 @@ while valid==False:
         if is_point_on_curve((Px,Py))==False:
             print("Please choose a point on the curve")
             continue
-            
         print("Generator P:",(Px,Py))
-
-        n=generate_n((Px,Py))
-
-        print("Prime order for Generator n",n)
-
         P=(Px,Py)
 
+        #get generator for P
+        n=generate_n((Px,Py))
+        print("Prime order for Generator n",n)
+        
         valid_gen=True
-
+        
     #if all assignments are performed then data is valid, valid=True
     valid=True
 

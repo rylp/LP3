@@ -17,7 +17,7 @@ def assign_labels(datapoints,centroids,labels):
     print("Centroid1: ",C1_x,",",C1_y)
     print("Centroid2: ",C2_x,",",C2_y)
 
-    i=1
+    i=0
     for point in datapoints:
         x=point[0]
         y=point[1]
@@ -28,24 +28,18 @@ def assign_labels(datapoints,centroids,labels):
 
         #after getting both distance, see which is smaller and assign label
         if(dist1<dist2):
-            labels[i-1]=1
+            labels[i]=1
         else:
-            labels[i-1]=2
-
+            labels[i]=2
         i+=1
 
 def get_new_centroids(points,labels):
-
     #define len1,len2
-    len1=0
-    len2=0
+    len1=len2=0
 
     #define sum for both cluster1 & cluster2
-    sum_x1=0
-    sum_y1=0
-
-    sum_x2=0
-    sum_y2=0
+    sum_x1=sum_y1=0
+    sum_x2=sum_y2=0
 
     #go thru all points at once
     # and acc. to label add into len & specific x and y variables
@@ -62,17 +56,10 @@ def get_new_centroids(points,labels):
             len2+=1
             sum_x2+=x
             sum_y2+=y
-
         index+=1
 
     #add all x and y points, divide by length to get mean
-    # and then return mean.
-    new_C1_x=0
-    new_C1_y=0
-
-    new_C2_x=0
-    new_C2_y=0
-    
+    # and then return mean
     new_C1_x=sum_x1/len1
     new_C1_y=sum_y1/len1
 
@@ -85,13 +72,8 @@ def get_new_centroids(points,labels):
     return (new_C1,new_C2)
 
 def KMeans(datapoints,centroids,labels,old_labels):
-
-    iter=1    
-
     #go in while loop till the labels don't change in an iteration
     while(labels!=old_labels):
-        print("Iteration:",iter)
-
         #copy the old_labels by labels.copy for further comparison
         #  in while loop
         old_labels=labels.copy()
@@ -104,11 +86,8 @@ def KMeans(datapoints,centroids,labels,old_labels):
         centroids[0],centroids[1]=get_new_centroids(datapoints,labels)
 
         print("New centroids:",centroids)
-
         print("New labels: ",labels)
         print("Old labels: ",old_labels)
-
-        iter+=1
 
 #datapoints
 datapoints = [
@@ -121,7 +100,6 @@ datapoints = [
   (0.24,0.1),
   (0.3,0.2)
 ]
-
 #initial centroids
 centroids = [
   (0.1,0.6),
@@ -151,8 +129,6 @@ plt.plot(xc,yc,"^",color="red")
 plt.show()
 
 #Output
-
-
 # Iteration: 1
 # Centroid1:  0.1 , 0.6
 # Centroid2:  0.3 , 0.2
