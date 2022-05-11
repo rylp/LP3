@@ -1,4 +1,3 @@
-
 def isPrime(num):
     if num> 1:  
         for n in range(2,num):  
